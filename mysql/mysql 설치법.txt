@@ -1,0 +1,72 @@
+https://dev.mysql.com/downloads/mysql/
+community server
+ZIP Archive	5.7.33	368.7M 설치
+No thanks, just start my download.
+-----------------------------------------
+mysql 폴더에 my(설정파일)파일 복사
+cd \
+mysqld --initialize
+mysqld --install
+net start mysql
+net stop mysql
+c드라이브에 mysql-init 복사
+c드라이브에 mydata/data 만들기
+mysqld --init-file=C:\mysql-init.txt
+---------------------------------------
+cmd 관리자모드로 창하나 더 띄우고 (최초 비밀번호 설정)
+mysql -u root -p  (비밀번호 요구)
+1234
+exit - 창 모두 끄기
+---------------------------------------
+다시 cmd 켜고
+net start mysql
+mysql -u root -p
+1234
+(접속 완료)
+---------------------------------------
+create database goott7; 테이블 생성
+grant all privileges on goott7.* to scott@localhost identified by 'tiger'; - 로컬 접근 허용
+grant all privileges on goott7.* to scott@'%' identified by 'tiger'; - 외부 접근 허용
+flush privileges;
+exit
+---------------------------------------
+mysql -u scott -p goott7
+tiger
+myspl scott파일 넣어서 실행
+mysql> CREATE TABLE IF NOT EXISTS `BONUS` (  `ENAME` varchar(10) DEFAULT NULL,  `JOB` varchar(9) DEFAULT NULL,  `SAL` double DEFAULT NULL,  `COMM` double DEFAULT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> CREATE TABLE IF NOT EXISTS `DEPT` (  `DEPTNO` int(11) NOT NULL,  `DNAME` varchar(14) DEFAULT NULL,  `LOC` varchar(13) DEFAULT NULL,  PRIMARY KEY (`DEPTNO`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> INSERT INTO `DEPT` (`DEPTNO`, `DNAME`, `LOC`) VALUES(10, 'ACCOUNTING', 'NEW YORK'),(20, 'RESEARCH', 'DALLAS'),(30, 'SALES', 'CHICAGO'),(40, 'OPERATIONS', 'BOSTON');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE IF NOT EXISTS `EMP` (  `EMPNO` int(11) NOT NULL,  `ENAME` varchar(10) DEFAULT NULL,  `JOB` varchar(9) DEFAULT NULL,  `MGR` int(11) DEFAULT NULL,  `HIREDATE` datetime DEFAULT NULL,  `SAL` double DEFAULT NULL,  `COMM` double DEFAULT NULL,  `DEPTNO` int(11) DEFAULT NULL,  PRIMARY KEY (`EMPNO`),  KEY `PK_EMP` (`DEPTNO`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> INSERT INTO `EMP` (`EMPNO`, `ENAME`, `JOB`, `MGR`, `HIREDATE`, `SAL`, `COMM`, `DEPTNO`) VALUES(7369, 'SMITH', 'CLERK', 7902, '1980-12-17 00:00:00', 800, NULL, 20),(7499, 'ALLEN', 'SALESMAN', 7698, '1981-02-20 00:00:00', 1600, 300, 30),(7521, 'WARD', 'SALESMAN', 7698, '1981-02-22 00:00:00', 1250, 500, 30),(7566, 'JONES', 'MANAGER', 7839, '1981-04-02 00:00:00', 2975, NULL, 20),(7654, 'MARTIN', 'SALESMAN', 7698, '1981-09-28 00:00:00', 1250, 1400, 30),(7698, 'BLAKE', 'MANAGER', 7839, '1981-05-01 00:00:00', 2850, NULL, 30),(7782, 'CLARK', 'MANAGER', 7839, '1981-06-09 00:00:00', 2450, NULL, 10),(7788, 'SCOTT', 'ANALYST', 7566, '1987-04-19 00:00:00', 3000, NULL, 20),(7839, 'KING', 'PRESIDENT', NULL, '1981-11-17 00:00:00', 5000, NULL, 10),(7844, 'TURNER', 'SALESMAN', 7698, '1981-09-08 00:00:00', 1500, 0, 30),(7876, 'ADAMS', 'CLERK', 7788, '1987-05-23 00:00:00', 1100, NULL, 20),(7900, 'JAMES', 'CLERK', 7698, '1981-12-03 00:00:00', 950, NULL, 30),(7902, 'FORD', 'ANALYST', 7566, '1981-12-03 00:00:00', 3000, NULL, 20),(7934, 'MILLER', 'CLERK', 7782, '1982-01-23 00:00:00', 1300, NULL, 10);
+Query OK, 14 rows affected (0.00 sec)
+Records: 14  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE IF NOT EXISTS `SALGRADE` (  `GRADE` double DEFAULT NULL,  `LOSAL` double DEFAULT NULL,  `HISAL` double DEFAULT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> INSERT INTO `SALGRADE` (`GRADE`, `LOSAL`, `HISAL`) VALUES(1, 700, 1200),(2, 1201, 1400),(3, 1401, 2000),(4, 2001, 3000),(5, 3001, 9999);
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE `EMP`  ADD CONSTRAINT `PK_EMP` FOREIGN KEY (`DEPTNO`) REFERENCES `DEPT` (`DEPTNO`) ON DELETE SET NULL ON UPDATE CASCADE;
+Query OK, 14 rows affected (0.13 sec)
+Records: 14  Duplicates: 0  Warnings: 0
+
+--------------------------------------------------------------------
+mysql 정지
+mydata/data => 폴더, 파일 모두 삭제
+
+cmd(관리자모드) mysqld --remove
+-------------------------------------------------------------------------
+https://downloads.mysql.com/archives/c-j/
+5.1.49 버전
+zip 파일 다운
